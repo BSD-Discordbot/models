@@ -14,6 +14,16 @@ interface PlayerHasCard {
   date_owned: Date
 }
 
+interface Tag {
+  id: Generated<number>
+  name: string
+}
+
+interface CardHasTag {
+  tag: number
+  card: number
+}
+
 interface Card {
   id: number
   rarity: number
@@ -44,6 +54,8 @@ interface Database {
   card_upgrade: CardUpgrade
   event: Event
   event_has_card: EventHasCard
+  tag: Tag
+  card_has_tag: CardHasTag
 }
 
 export default Database

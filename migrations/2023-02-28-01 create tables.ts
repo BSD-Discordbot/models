@@ -12,6 +12,12 @@ export async function up (db: Kysely<any>): Promise<void> {
     .execute()
 
   await db.schema
+    .createTable('tag')
+    .addColumn('id', 'serial', (col) => col.unique().primaryKey())
+    .addColumn('name', 'integer', (col) => col.notNull().unique())
+    .execute()
+
+  await db.schema
     .createTable('card')
     .addColumn('id', 'integer', (col) => col.unique().primaryKey())
     .addColumn('rarity', 'integer', (col) => col.defaultTo(1).notNull())
@@ -25,6 +31,12 @@ export async function up (db: Kysely<any>): Promise<void> {
     .addColumn('requirement', 'integer', (col) =>
       col.references('card.id').onDelete('cascade')
     )
+    .execute()
+
+  await db.schema
+    .createTable('card_has_tag')
+    .addColumn('card', 'integer', (col) => col.unique().primaryKey().references('card.id').onDelete('cascade'))
+    .addColumn('tag', 'integer', (col) => col.notNull().unique().references('tag.id').onDelete('cascade'))
     .execute()
 
   await db.schema
