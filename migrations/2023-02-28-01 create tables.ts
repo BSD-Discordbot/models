@@ -14,7 +14,7 @@ export async function up (db: Kysely<any>): Promise<void> {
   await db.schema
     .createTable('tag')
     .addColumn('id', 'serial', (col) => col.unique().primaryKey())
-    .addColumn('name', 'integer', (col) => col.notNull().unique())
+    .addColumn('name', 'varchar', (col) => col.notNull().unique())
     .execute()
 
   await db.schema
@@ -35,8 +35,9 @@ export async function up (db: Kysely<any>): Promise<void> {
 
   await db.schema
     .createTable('card_has_tag')
-    .addColumn('card', 'integer', (col) => col.unique().primaryKey().references('card.id').onDelete('cascade'))
-    .addColumn('tag', 'integer', (col) => col.notNull().unique().references('tag.id').onDelete('cascade'))
+    .addColumn('card', 'integer', (col) => col.notNull().references('card.id').onDelete('cascade'))
+    .addColumn('tag', 'integer', (col) => col.notNull().references('tag.id').onDelete('cascade'))
+    .addPrimaryKeyConstraint('card_has_tag_pkey', ['card', 'tag'])
     .execute()
 
   await db.schema
