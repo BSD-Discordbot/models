@@ -15,12 +15,12 @@ interface PlayerHasCard {
 }
 
 interface Card {
-  card_id: number
+  id: number
   rarity: number
 }
 
 interface CardUpgrade {
-  card_id: number
+  card: number
   requirement: number
 }
 
@@ -33,8 +33,8 @@ interface Event {
 }
 
 interface EventHasCard {
-  event_id: number
-  card_id: number
+  event: number
+  card: number
 }
 
 interface Database {

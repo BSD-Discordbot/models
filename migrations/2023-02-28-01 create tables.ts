@@ -13,17 +13,17 @@ export async function up (db: Kysely<any>): Promise<void> {
 
   await db.schema
     .createTable('card')
-    .addColumn('card_id', 'integer', (col) => col.unique().primaryKey())
+    .addColumn('id', 'integer', (col) => col.unique().primaryKey())
     .addColumn('rarity', 'integer', (col) => col.defaultTo(1).notNull())
     .execute()
 
   await db.schema
     .createTable('card_upgrade')
-    .addColumn('card_id', 'integer', (col) =>
-      col.unique().primaryKey().references('card.card_id').onDelete('cascade')
+    .addColumn('id', 'integer', (col) =>
+      col.unique().primaryKey().references('card.id').onDelete('cascade')
     )
     .addColumn('requirement', 'integer', (col) =>
-      col.references('card.card_id').onDelete('cascade')
+      col.references('card.id').onDelete('cascade')
     )
     .execute()
 
@@ -41,25 +41,25 @@ export async function up (db: Kysely<any>): Promise<void> {
     .addColumn('discord_id', 'bigint', (col) =>
       col.references('player.discord_id').onDelete('cascade')
     )
-    .addColumn('card_id', 'integer', (col) =>
-      col.references('card.card_id').onDelete('cascade')
+    .addColumn('card', 'integer', (col) =>
+      col.references('card.id').onDelete('cascade')
     )
     .addColumn('amount', 'integer', (col) => col.defaultTo(1).notNull())
     .addColumn('date_owned', 'timestamp', (col) =>
       col.defaultTo(sql`CURRENT_DATE`).notNull()
     )
-    .addPrimaryKeyConstraint('player_has_card_pkey', ['discord_id', 'card_id'])
+    .addPrimaryKeyConstraint('player_has_card_pkey', ['discord_id', 'card'])
     .execute()
 
   await db.schema
     .createTable('event_has_card')
-    .addColumn('event_id', 'integer', (col) =>
+    .addColumn('event', 'integer', (col) =>
       col.references('event.id').onDelete('cascade')
     )
-    .addColumn('card_id', 'integer', (col) =>
-      col.references('card.card_id').onDelete('cascade')
+    .addColumn('card', 'integer', (col) =>
+      col.references('card.id').onDelete('cascade')
     )
-    .addPrimaryKeyConstraint('event_has_card_pkey', ['event_id', 'card_id'])
+    .addPrimaryKeyConstraint('event_has_card_pkey', ['event', 'card'])
     .execute()
 }
 

@@ -108,18 +108,18 @@ export async function pull (discordId: bigint, event: number): Promise<number[]>
             .selectFrom('card')
             .innerJoin(
               'event_has_card',
-              'event_has_card.card_id',
-              'card.card_id'
+              'event_has_card.card',
+              'card.id'
             )
-            .select('card.card_id')
+            .select('card.id')
             .where('card.rarity', '=', e)
-            .where('event_has_card.event_id', '=', event)
+            .where('event_has_card.event', '=', event)
             .orderBy(sql`RANDOM()`)
             .limit(1)
             .executeTakeFirstOrThrow()
       )
     )
-  ).map((e) => e.card_id)
+  ).map((e) => e.id)
 
   await Promise.all(
     cards.map(
