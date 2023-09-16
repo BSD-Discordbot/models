@@ -22,7 +22,6 @@ interface Tag {
 interface CardHasTag {
   tag: number
   card: number
-  amount: number
 }
 
 interface Card {
@@ -33,6 +32,7 @@ interface Card {
 interface CardUpgrade {
   card: number
   requirement: number
+  amount: number
 }
 
 interface Event {
