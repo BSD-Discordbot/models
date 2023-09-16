@@ -25,13 +25,14 @@ export async function up (db: Kysely<any>): Promise<void> {
 
   await db.schema
     .createTable('card_upgrade')
-    .addColumn('id', 'integer', (col) =>
-      col.unique().primaryKey().references('card.id').onDelete('cascade')
+    .addColumn('card', 'integer', (col) =>
+      col.references('card.id').onDelete('cascade')
     )
     .addColumn('requirement', 'integer', (col) =>
       col.references('card.id').onDelete('cascade')
     )
     .addColumn('amount', 'integer', (col) => col.notNull().defaultTo(1))
+    .addPrimaryKeyConstraint('card_upgrade_pkey', ['card', 'requirement'])
     .execute()
 
   await db.schema
