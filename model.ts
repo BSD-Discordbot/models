@@ -22,6 +22,7 @@ interface Tag {
 interface CardHasTag {
   tag: number
   card: number
+  amount: number
 }
 
 interface Card {

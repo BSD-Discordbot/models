@@ -31,6 +31,7 @@ export async function up (db: Kysely<any>): Promise<void> {
     .addColumn('requirement', 'integer', (col) =>
       col.references('card.id').onDelete('cascade')
     )
+    .addColumn('amount', 'integer', (col) => col.notNull().defaultTo(1))
     .execute()
 
   await db.schema
