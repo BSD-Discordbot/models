@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv'
 import { Kysely, PostgresDialect } from 'kysely'
-import { Pool } from 'pg'
+import pg from 'pg'
 import migrateToLatest from './migrations'
 import type Database from './model'
 dotenv.config()
@@ -8,7 +8,7 @@ dotenv.config()
 const migration = migrateToLatest()
 const db = new Kysely<Database>({
   dialect: new PostgresDialect({
-    pool: new Pool({
+    pool: new pg.Pool({
       host: process.env.POSTGRES_HOST,
       database: process.env.POSTGRES_DATABASE,
       user: process.env.POSTGRES_USER,

@@ -25,8 +25,10 @@ interface CardHasTag {
 }
 
 interface Card {
-  id: number
+  id: Generated<number>
+  name: string
   rarity: number
+  image?: BinaryType
 }
 
 interface CardUpgrade {
